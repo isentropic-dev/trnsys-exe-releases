@@ -19,7 +19,7 @@ After installation, you will need to create symbolic links (symlinks) for the `l
 
 1. Open **PowerShell** with administrative privileges:
    - Press `Win + R`, type `powershell`, and press `Ctrl + Shift + Enter`.
-2. Execute the following commands, replacing the example paths with the actual paths:
+2. Execute the following commands, replacing the example target paths with the actual locations on your computer:
 
    ```powershell
    New-Item -ItemType SymbolicLink -Path "$env:LocalAppData\trnsys\lib" -Target "$env:UserProfile\source\repos\isentropic-dev\trnsys-core\build\x64\Debug\dist"
