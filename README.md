@@ -13,23 +13,34 @@ Go to the [Releases](https://github.com/isentropic-dev/trnsys-exe-releases/relea
 1. Double-click the downloaded `trnsys_{version}_x64-setup.exe` file.
 2. Follow the on-screen instructions to complete the installation. The default installation directory is `C:\Users\{Your Username}\AppData\Local\trnsys`.
 
-### Step 3: Set Up Symlinks for Required Directories
+### Step 3: Configure Required Directories
 
-After installation, you will need to create symbolic links (symlinks) for the `lib`, `resources`, and `userlib` directories to their corresponding TRNSYS library and resource files using PowerShell:
+After installation, you will need to define the locations of the TRNSYS directories in a configuration file. The program will read this file at runtime.
 
-1. Open **PowerShell** with administrative privileges:
-   - Press `Win + R`, type `powershell`, and press `Ctrl + Shift + Enter`.
-2. Execute the following commands, replacing the example target paths with the actual locations on your computer:
+1. Create a JSON file at `C:\Users\{Your Username}\.config\trnsys\directories.json` with the following format:
 
-   ```powershell
-   New-Item -ItemType SymbolicLink -Path "$env:LocalAppData\trnsys\lib" -Target "$env:UserProfile\source\repos\isentropic-dev\trnsys-core\build\x64\Debug\dist"
-   New-Item -ItemType SymbolicLink -Path "$env:LocalAppData\trnsys\resources" -Target "$env:UserProfile\source\repos\isentropic-dev\trnsys-core\Resources"
-   New-Item -ItemType SymbolicLink -Path "$env:LocalAppData\trnsys\userlib" -Target "C:\Path\To\User\Type\Libraries"
+   ```json
+   {
+       "root": "C:\\Path\\To\\TRNSYS\\Root",
+       "exe": "C:\\Path\\To\\TRNSYS\\Executable",
+       "resources": "C:\\Path\\To\\TRNSYS\\Resources",
+       "userTypes": [
+           "C:\\Path\\To\\User\\Type\\Directory",
+           "C:\\Path\\To\\Another\\User\\Type\\Directory"
+       ]
+   }
    ```
 
-### Step 4: Verify the Symlinks
+2. Replace the example paths with the actual locations on your computer.  An example config for a hypothetical user named Angie would be:
 
-Navigate to the installation directory (default is `C:\Users\{Your Username}\AppData\Local\trnsys`) and verify that the `lib`, `resources`, and `userlib` directories correctly link to the respective TRNSYS directories.
+   ```json
+   {
+       "root": "C:/Users/Angie/source/repos/isentropic-dev/trnsys-core/build/x64/Debug/dist",
+       "exe": "C:/Users/Angie/source/repos/isentropic-dev/trnsys-core/build/x64/Debug/dist",
+       "resources": "C:/Users/Angie/source/repos/isentropic-dev/trnsys-core/Resources",
+       "userTypes": []
+   }
+   ```
 
 ## Installation Guide for Mac
 
@@ -51,29 +62,26 @@ Go to the [Releases](https://github.com/isentropic-dev/trnsys-exe-releases/relea
 
 2. Move the `trnsys.app` application to your preferred location, such as `/Applications`.
 
-### Step 3: Create Symlinks for Required Directories
+### Step 3: Configure Required Directories
 
-Inside the `trnsys.app` package, create symbolic links (symlinks) for the `lib`, `resources`, and `userlib` directories to their corresponding TRNSYS library files:
+After installation, you will need to define the locations of the TRNSYS directories in a configuration file. The program will read this file at runtime.
 
-1. Open the **Terminal** application.
-2. Navigate to the `Contents/MacOS` directory of the `trnsys.app` package:
+1. Create a JSON file at `~/.config/trnsys/directories.json` with the following format:
 
-   ```sh
-   cd /Path/To/trnsys.app/Contents/MacOS
+   ```json
+   {
+       "root": "/Path/To/TRNSYS/Root",
+       "exe": "/Path/To/TRNSYS/Executable",
+       "resources": "/Path/To/TRNSYS/Resources",
+       "userTypes": [
+           "/Path/To/User/Type/Directory",
+           "/Path/To/Another/User/Type/Directory"
+       ]
+   }
    ```
 
-3. Run the following commands, replacing `/Path/To/TRNSYS/Libraries` with the actual path:
-
-   ```sh
-   ln -s "/Path/To/TRNSYS/lib" lib
-   ln -s "/Path/To/TRNSYS/resources" resources
-   ln -s "/Path/To/TRNSYS/userlib" userlib
-   ```
-
-### Step 4: Verify the Symlinks
-
-Navigate to the `Contents/MacOS` directory of the `trnsys.app` package and ensure the `lib`, `resources`, and `userlib` directories correctly link to the respective TRNSYS directories.
+2. Replace the example paths with the actual locations on your computer.
 
 ## Automatic Updates
 
-Once installed, this program will automatically update itself when newer versions are available. The symbolic links to the TRNSYS files created during setup should remain intact across updates.
+Once installed, this program will automatically update itself when newer versions are available. The directory paths specified in the `directories.json` configuration file should remain intact across updates.
